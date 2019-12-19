@@ -1,0 +1,38 @@
+<header>
+  <h1>Breed Board</h1>
+</header>
+<div class="container">
+  <div class="select-box-container">
+    <form [formGroup]="form">
+      <input
+        *ngIf="!isSelectType"
+        class="text-form"
+        placeholder="Type a breed name..."
+        type="text"
+        formControlName="breedName"
+      />
+      <select
+        *ngIf="isSelectType"
+        class="text-form"
+        formControlName="list"
+        (change)="lookForBreed()"
+      >
+        <option *ngFor="let list of breedList" [ngValue]="list">
+          {{ list }}
+        </option>
+      </select>
+      <button *ngIf="!isSelectType" (click)="lookForBreed()">fetch</button>
+      <button (click)="toggleMode()">
+        {{ isSelectType ? "type" : "select" }}
+      </button>
+    </form>
+  </div>
+  <div class="view-container">
+    <img alt="dog cute pic" src="{{ breedImg }}" />
+  </div>
+  <div class="route-link-container">
+    <a [routerLink]="['/breed', name]" routerLinkActive="active current">
+      Get your picture here...
+    </a>
+  </div>
+</div>

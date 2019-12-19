@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { BreedService } from "../../../../services/breed/breed-service.service";
+import { BreedService } from "../../services/breed/breed-service.service";
+
 @Component({
-  selector: "select-box",
-  templateUrl: "./select-box.component.html",
-  styleUrls: ["./select-box.component.scss"]
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
-export class SelectBoxComponent implements OnInit {
+export class HomeComponent implements OnInit {
   name = "affenpinscher";
   breedList: string[] = [];
   breedImg: string;

@@ -1,21 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { HomeContainer } from "./modules/home/container/home-container.component";
+import { HomeComponent } from "./components/home/home.component";
+import { ViewBoxComponent } from "./components/view-box/view-box.component";
+import { PageNotFoundComponent } from "./components/pagenotfound/page-not-found.component";
 
 const routes: Routes = [
-  { path: "", component: HomeContainer },
-  {
-    path: "breed",
-    loadChildren: () =>
-      import("./modules/view-box/view-box.module").then(m => m.ViewBoxModule)
-  },
-  {
-    path: "**",
-    loadChildren: () =>
-      import("./modules/pagenotfound/pagenotfound.module").then(
-        m => m.PagenotfoundModule
-      )
-  }
+  { path: "", component: HomeComponent },
+  { path: "breed/:name", component: ViewBoxComponent },
+  { path: "**", component: PageNotFoundComponent }
 ];
 
 @NgModule({

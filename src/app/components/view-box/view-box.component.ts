@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { BreedService } from "../../../services/breed/breed-service.service";
+import { BreedService } from "../../services/breed/breed-service.service";
 @Component({
   selector: "app-view-box",
   templateUrl: "./view-box.component.html",
