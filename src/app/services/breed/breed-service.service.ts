@@ -1,32 +1,32 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class BreedService {
-  url = "https://dog.ceo/api/breeds/list/all";
-  breedFound: string;
+  urlAll = environment.apiUrlAll;
+  apiUrl = environment.apiUrl;
+  breedUrl: string;
   constructor(private http: HttpClient) {}
-  getRandomImg() {
-    return this.http.get(
-      "https://dog.ceo/api/breed/affenpinscher/images/random"
-    );
+  public getBreedInfo(): Observable<any> {
+    return this.http.get("../../../assets/breed.json");
+  }
+  getRandomImg(name) {
+    return this.http.get(`https://dog.ceo/api/breed/${name}/images/random`);
   }
   getBreedList() {
-    return this.http.get(this.url);
+    return this.http.get(this.urlAll);
   }
   getSelectedBreed(breed: string) {
     const breedpicked = breed.trim().split(" ");
+    localStorage.setItem("breed", breedpicked[0]);
     return breedpicked.length > 1
       ? this.http.get(
-          `https://dog.ceo/api/breed/${breedpicked[0]}/${breedpicked[1]}/images/random`
+          `${this.apiUrl}/${breedpicked[0]}/${breedpicked[1]}/images/random`
         )
-      : this.http.get(
-          `https://dog.ceo/api/breed/${breedpicked[0]}/images/random`
-        );
-  }
-  getbreedFound() {
-    return this.breedFound;
+      : this.http.get(`${this.apiUrl}/${breedpicked[0]}/images/random`);
   }
 }

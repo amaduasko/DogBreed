@@ -8,12 +8,14 @@ import { BreedService } from "../../services/breed/breed-service.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  name = "affenpinscher";
+  name: string = localStorage.length
+    ? localStorage.getItem("breed")
+    : "affenpinscher";
   breedList: string[] = [];
   breedImg: string;
   isSelectType = true;
   form = new FormGroup({
-    list: new FormControl("affenpinscher"),
+    list: new FormControl(this.name),
     breedName: new FormControl("")
   });
 
@@ -21,11 +23,13 @@ export class HomeComponent implements OnInit {
   toggleMode() {
     this.isSelectType = !this.isSelectType;
   }
-  getRandomBreedImg(): void {
-    this.service.getRandomImg().subscribe((data: any) => {
-      this.service.breedFound = data.message;
-      this.breedImg = data.message;
-    });
+  getRandomOrActualBreedImg(): void {
+    localStorage.getItem("breedUrl")
+      ? (this.breedImg = localStorage.getItem("breedUrl"))
+      : this.service.getRandomImg(this.name).subscribe((data: any) => {
+          localStorage.setItem("breedUrl", data.message);
+          this.breedImg = data.message;
+        });
   }
   lookForBreed(): void {
     const breed: string = this.isSelectType
@@ -33,12 +37,12 @@ export class HomeComponent implements OnInit {
       : this.form.controls.breedName.value;
     this.name = breed.trim();
     this.service.getSelectedBreed(breed).subscribe((data: any) => {
-      this.service.breedFound = data.message;
+      localStorage.setItem("breedUrl", data.message);
       this.breedImg = data.message;
     });
   }
   ngOnInit() {
-    this.getRandomBreedImg();
+    this.getRandomOrActualBreedImg();
     this.service.getBreedList().subscribe((data: any) => {
       for (let key in data.message) {
         const value = data.message[key];
